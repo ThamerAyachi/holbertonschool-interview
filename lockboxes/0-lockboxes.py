@@ -14,18 +14,18 @@ def canUnlockAll(boxes):
     Returns:
         _type_: _description_
     """
-    n = len(boxes)
-    visited = set()
-    stack = [0]  # Start with the first box
+    num_boxes = len(boxes)
+    unlocked = [False] * num_boxes
 
-    while stack:
-        current_box = stack.pop()
-        visited.add(current_box)
+    unlocked[0] = True
 
-        # Check the keys in the current box
-        for key in boxes[current_box]:
-            if key not in visited:
-                stack.append(key)
+    locked = [0]
 
-    # If all boxes have been visited, return True
-    return len(visited) == n
+    while locked:
+        current = locked.pop()
+        for key in boxes[current]:
+            if 0 <= key < num_boxes and not unlocked[key]:
+                unlocked[key] = True
+                locked.append(key)
+
+    return all(unlocked)
