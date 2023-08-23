@@ -4,7 +4,7 @@
 #include "lists.h"
 
 /**
- * main - create list and test insert at beginning of list
+ * main - create list and test insert multiple numbers
  *
  * Return: Always 0.
  */
@@ -25,7 +25,12 @@ int main(void)
 
     printf("-----------------\n");
 
-    insert_node(&head, -7);
+    insert_node(&head, 5);
+    insert_node(&head, -32);
+    insert_node(&head, 5432);
+    insert_node(&head, 101);
+    insert_node(&head, 47);
+    insert_node(&head, 6405);
 
     print_listint(head);
 
