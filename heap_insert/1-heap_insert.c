@@ -53,27 +53,31 @@ binary_tree_t *heap_insert_recursive(binary_tree_t *node, int value)
 		return create_heap_node(value);
 	}
 
-	if (node->left == NULL)
-	{
-		node->left = heap_insert_recursive(node->left, value);
-		node->left->parent = node;
-	}
-	else if (node->right == NULL)
+	if (node->right == NULL)
 	{
 		node->right = heap_insert_recursive(node->right, value);
 		node->right->parent = node;
+		heapify_up(node->right);
+	}
+	else if (node->left == NULL)
+	{
+		node->left = heap_insert_recursive(node->left, value);
+		node->left->parent = node;
+		heapify_up(node->left);
 	}
 	else
 	{
-		if (node->left->left && node->left->right)
-		{
-			node->right = heap_insert_recursive(node->right, value);
-			node->right->parent = node;
-		}
-		else
+		if (node->right->right && node->right->left)
 		{
 			node->left = heap_insert_recursive(node->left, value);
 			node->left->parent = node;
+			heapify_up(node->left);
+		}
+		else
+		{
+			node->right = heap_insert_recursive(node->right, value);
+			node->right->parent = node;
+			heapify_up(node->right);
 		}
 	}
 
