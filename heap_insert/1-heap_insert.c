@@ -52,13 +52,14 @@ binary_tree_t *heap_insert(binary_tree_t **root, int value)
 	if (!new_node)
 		return NULL;
 
+	binary_tree_t *current = *root;
+
 	if (*root == NULL)
 	{
 		*root = new_node;
 		return new_node;
 	}
 
-	binary_tree_t *current = *root;
 	while (current->left && current->right)
 	{
 		if (current->left->left && current->left->right)
