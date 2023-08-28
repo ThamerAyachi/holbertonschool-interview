@@ -39,6 +39,50 @@ void heapify_up(binary_tree_t *node)
 }
 
 /**
+ * heap_insert_recursive - insert
+ *
+ * @node: pointer
+ * @value: value
+ *
+ * Return: Pointer
+ */
+binary_tree_t *heap_insert_recursive(binary_tree_t *node, int value)
+{
+	if (node == NULL)
+	{
+		return create_heap_node(value);
+	}
+
+	if (node->left == NULL)
+	{
+		node->left = heap_insert_recursive(node->left, value);
+		node->left->parent = node;
+	}
+	else if (node->right == NULL)
+	{
+		node->right = heap_insert_recursive(node->right, value);
+		node->right->parent = node;
+	}
+	else
+	{
+		if (node->left->left && node->left->right)
+		{
+			node->right = heap_insert_recursive(node->right, value);
+			node->right->parent = node;
+		}
+		else
+		{
+			node->left = heap_insert_recursive(node->left, value);
+			node->left->parent = node;
+		}
+	}
+
+	heapify_up(node);
+
+	return node;
+}
+
+/**
  * heap_insert - insert node
  *
  * @root: pointer of node
@@ -48,34 +92,11 @@ void heapify_up(binary_tree_t *node)
  */
 binary_tree_t *heap_insert(binary_tree_t **root, int value)
 {
-	binary_tree_t *new_node = create_heap_node(value);
-	if (!new_node)
-		return NULL;
-
-	binary_tree_t *current = *root;
-
 	if (*root == NULL)
 	{
-		*root = new_node;
-		return new_node;
+		*root = create_heap_node(value);
+		return *root;
 	}
 
-	while (current->left && current->right)
-	{
-		if (current->left->left && current->left->right)
-			current = current->right;
-		else
-			current = current->left;
-	}
-
-	if (!current->left)
-		current->left = new_node;
-	else
-		current->right = new_node;
-
-	new_node->parent = current;
-
-	heapify_up(new_node);
-
-	return new_node;
+	return heap_insert_recursive(*root, value);
 }
