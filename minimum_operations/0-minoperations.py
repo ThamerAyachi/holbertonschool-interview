@@ -1,21 +1,19 @@
 #!/usr/bin/python3
-""" Minimum Operations
-    """
+""" dertimines minimum number of "copy all"/"paste"
+operations to produce `n` number characters starting from 1. """
 
 
-def minOperations(n: int) -> int:
-    """ Minimum Operations needed to get n H characters """
-    next = 'H'
-    body = 'H'
-    op = 0
-    while (len(body) < n):
-        if n % len(body) == 0:
-            op += 2
-            next = body
-            body += body
-        else:
-            op += 1
-            body += next
-    if len(body) != n:
+def minOperations(n):
+    if not isinstance(n, int) or n < 1:
         return 0
-    return op
+
+    minOps = 0
+    divisor = 2
+
+    while n > 1:
+        while n % divisor == 0:
+            minOps += divisor
+            n //= divisor
+        divisor += 1
+
+    return minOps
